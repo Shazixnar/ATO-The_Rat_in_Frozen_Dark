@@ -1,0 +1,6 @@
+{
+	"ID": "frozendark",
+	"Name": "Frozen Dark",
+	"Traits": ["zekfrozendark"],
+	"Cards": ["frozendarkblizzard", "frozendarkfrostnova", "frozendarkfrostbolt", "frozendarkrain", "frozendarkshatter", "frozendarkwinteriscoming", "frozendarkwinterorb"]	
+}
