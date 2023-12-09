@@ -2688,7 +2688,7 @@
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "1.0.0",
+    "version": "1.0.1",
     "restore": {
       "projectUniqueName": "D:\\Workspace\\ATOmod\\ATO-The_Rat_in_Frozen_Dark\\ATO-The_Rat_in_Frozen_Dark_TraitMod\\TraitMod.csproj",
       "projectName": "com.shazixnar.TheRatinFrozenDarkTraits",

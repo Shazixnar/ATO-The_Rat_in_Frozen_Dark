@@ -270,6 +270,7 @@ namespace TraitMod
                         DamageWhenConsumedPerChargeModify += (float)(chillCharge / 20 * 0.1f);
                     }
                 }
+                __result.DamageWhenConsumedPerCharge = DamageWhenConsumedPerChargeModify;
             }
             else if (_acId == "chill")
             {
@@ -282,7 +283,6 @@ namespace TraitMod
                     }
                 }
             }
-            __result.DamageWhenConsumedPerCharge = DamageWhenConsumedPerChargeModify;
         }
     }
 }
