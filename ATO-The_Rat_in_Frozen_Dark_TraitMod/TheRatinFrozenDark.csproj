@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-	<RootNamespace>TraitMod</RootNamespace>
-	<Product>TheRatinFrozenDarkTraits</Product>
+	<RootNamespace>TheRatinFrozenDark</RootNamespace>
+	<Product>The Rat in Frozen Dark</Product>
     <AssemblyName>com.shazixnar.TheRatinFrozenDarkTraits</AssemblyName>
     <Description>The Rat in Frozen Dark Traits, made by Shazixnar</Description>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
