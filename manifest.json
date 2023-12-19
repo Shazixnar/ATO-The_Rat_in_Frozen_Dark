@@ -1,10 +1,10 @@
 {
     "name": "The_Rat_in_Frozen_Dark",
-    "version_number": "1.0.1",
+    "version_number": "1.0.2",
     "website_url": "https://github.com/4AleRoL4/ATO-The_Rat_in_Frozen_Dark",
     "description": "Zek is better at curse or corrupting Cold cards now",
     "dependencies": [
-        "meds-Obeliskial_Essentials-1.0.0",
-        "meds-Obeliskial_Content-1.0.0"
+        "meds-Obeliskial_Essentials-1.1.0",
+        "meds-Obeliskial_Content-1.1.0"
     ]
 }
