@@ -1,6 +1,6 @@
 # The Rat in Frozen Dark
 
-A content pack for [Obeliskial Content](https://across-the-obelisk.thunderstore.io/package/meds/Obeliskial_Content/) that redo Zek's traits, mage's cards and one perks.
+A content pack for [Obeliskial Content](https://across-the-obelisk.thunderstore.io/package/meds/Obeliskial_Content/) that redo Zek's traits and one perks.
 
 <details>
 <summary>Enchantments</summary>
@@ -35,17 +35,13 @@ Darkest Abyss: Dark +2. Dark on enemies increases the damage of the dark explosi
 
 ### Cards
 
-![Deep Darkness](https://github.com/4AleRoL4/ATO-The_Rat_in_Frozen_Dark/blob/main/Picture/deep_darkness.png?raw=true)
-
-![Endless Abyss](https://github.com/4AleRoL4/ATO-The_Rat_in_Frozen_Dark/blob/main/Picture/endless_abyss.png?raw=true)
-
 ![Shatter](https://github.com/4AleRoL4/ATO-The_Rat_in_Frozen_Dark/blob/main/Picture/shatter.png?raw=true)
 
-And 20 more cards.
+And 6 more cards.
 
-Cards List: **Blizzard**, **Curse of Agony**, **Curse of Decay**, **Curse of Elements**, **Curse of Exhaustion**, **Curse of Fragility**, **Curse of Shadows**, **Curse of Torment**, **Curse of Vulnerability**, **Cursenomicon**, **Darkness Falls**, **Drain Life**, **Frost Nova**, **Frostbolt**, **Rain**, **Shadow Binding**, **Shadow Bolt**, **Siphon Life**, **Winter is Coming**, **Winter Orb**.
+Cards List: **Blizzard**, **Frost Nova**, **Frostbolt**, **Rain**, **Winter is Coming**, **Winter Orb**.
 
-PS: Some cards need the trait of **Frozen Dark**.
+PS: Many cards need the trait of **Frozen Dark** then you can craft them in town.
 </details>
 
 <details>

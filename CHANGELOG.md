@@ -1,3 +1,7 @@
+# 1.1.0
+
+Separate all cards to another mod.
+
 # 1.0.2
 
 Update for Obeliskial Content v.1.1.0.
