@@ -41,7 +41,7 @@ And 6 more cards.
 
 Cards List: **Blizzard**, **Frost Nova**, **Frostbolt**, **Rain**, **Winter is Coming**, **Winter Orb**.
 
-PS: Many cards need the trait of **Frozen Dark** then you can craft them in town.
+PS: New cards need the trait of **Frozen Dark** then you can craft them in town.
 </details>
 
 <details>
