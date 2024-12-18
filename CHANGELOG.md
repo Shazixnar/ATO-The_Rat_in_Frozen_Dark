@@ -1,3 +1,7 @@
+# 1.1.2
+
+Adjust **Winter is Coming**, change the rarity into Mythic. In order to fix a bug and modify the effect to fit the rarity.
+
 # 1.1.1
 
 Fix a little problem. I forgot moving a json into this mod before.
