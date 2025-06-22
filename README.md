@@ -19,7 +19,7 @@ A content pack for [Obeliskial Content](https://across-the-obelisk.thunderstore.
 
 Dark Feast: Dark +2. Dark on enemies reduces shadow resistance 1.5% per charge. At the start of your turn, reduce the cost of the cards in your hand by 1 (2) until they are discarded if you have 5 (20) Dark stack.
 
-Frozen Dark: Dark +1. You have corrupted Cold cards (Find them at Magic forge). Chill on enemies max charge is 100. When you play a \"Shadow Spell\" card, apply 2 Scourge and 3 Chill to all monster. When you play a \"Cold Spell\" card, refund 1 Energy and apply 1 Dark to all monster. (4 times/turn)
+Frozen Dark: Dark +1. You have corrupted Cold cards (Find them at Magic forge). Chill on enemies max charge is 100. When you play a \"Shadow Spell\" card, apply 1 Scourge and 1 Chill to all monster. When you play a \"Cold Spell\" card, refund 1 Energy and apply 1 Dark to all monster. (4 times/turn)
 
 ### Level 5
 

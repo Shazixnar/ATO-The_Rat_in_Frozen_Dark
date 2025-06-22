@@ -1,3 +1,11 @@
+# 1.1.4
+
+Change the trait's description(forgot in last version)
+
+# 1.1.3
+
+Updated for new game version, nerf a little the **Frozen dark**
+
 # 1.1.2
 
 Adjust **Winter is Coming**, change the rarity into Mythic. In order to fix a bug and modify the effect to fit the rarity.

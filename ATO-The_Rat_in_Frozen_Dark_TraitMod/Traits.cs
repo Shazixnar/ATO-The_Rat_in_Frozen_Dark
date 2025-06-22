@@ -165,8 +165,8 @@ namespace TraitMod
                             {
                                 if (teamNPC[i] != null && teamNPC[i].Alive)
                                 {
-                                    teamNPC[i].SetAuraTrait(_character, "scourge", 2);
-                                    teamNPC[i].SetAuraTrait(_character, "chill", 3);
+                                    teamNPC[i].SetAuraTrait(_character, "scourge", 1);
+                                    teamNPC[i].SetAuraTrait(_character, "chill", 1);
                                 }
                             }
                             return;
