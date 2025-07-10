@@ -22,7 +22,7 @@
         "Spell"
     ],
     "CardName": "Winter Orb",
-    "CardRarity": "Rare",
+    "CardRarity": "Epic",
     "Curse": "dark",
     "Curse2": "",
     "Curse3": "",
@@ -59,7 +59,7 @@
     "AcEnergyBonusQuantity": 0,
     "AcEnergyBonus2": "",
     "AcEnergyBonus2Quantity": 0,
-    "EffectRepeat": 5,
+    "EffectRepeat": 3,
     "EffectRepeatTarget": "Random",
     "EffectRepeatMaxBonus": 0,
     "EffectRepeatModificator": 0,

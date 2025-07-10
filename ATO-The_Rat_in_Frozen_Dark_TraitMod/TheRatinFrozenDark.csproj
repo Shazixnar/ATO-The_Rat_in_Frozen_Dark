@@ -6,7 +6,7 @@
 	<Product>The Rat in Frozen Dark</Product>
     <AssemblyName>com.shazixnar.TheRatinFrozenDarkTraits</AssemblyName>
     <Description>The Rat in Frozen Dark Traits, made by Shazixnar</Description>
-    <Version>1.1.4</Version>
+    <Version>1.1.5</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

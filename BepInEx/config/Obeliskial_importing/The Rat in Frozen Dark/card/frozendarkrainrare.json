@@ -22,7 +22,7 @@
         "Spell"
     ],
     "CardName": "Rain",
-    "CardRarity": "Common",
+    "CardRarity": "Rare",
     "Curse": "wet",
     "Curse2": "dark",
     "Curse3": "",
@@ -65,7 +65,7 @@
     "EffectRepeatModificator": 0,
     "EffectRepeatEnergyBonus": 0,
     "EffectTrailRepeat": false,
-    "EnergyCost": 0,
+    "EnergyCost": 3,
     "EnergyRecharge": 0,
     "Heal": 0,
     "HealAuraCurseName": "",

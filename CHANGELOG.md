@@ -1,10 +1,14 @@
+# 1.1.5
+
+The special cards of **Frozen Dark** had some bugs, and fixed.
+
 # 1.1.4
 
 Change the trait's description(forgot in last version)
 
 # 1.1.3
 
-Updated for new game version, nerf a little the **Frozen dark**
+Updated for new game version, nerf a little the **Frozen Dark**
 
 # 1.1.2
 

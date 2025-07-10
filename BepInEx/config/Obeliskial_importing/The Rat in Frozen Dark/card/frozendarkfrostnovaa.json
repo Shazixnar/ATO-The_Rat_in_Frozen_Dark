@@ -49,7 +49,7 @@
     "DispelAuras": 0,
     "DrawCard": 0,
     "EffectCastCenter": true,
-    "EffectCaster": null,
+    "EffectCaster": "",
     "EffectCasterRepeat": false,
     "EffectPreAction": "",
     "EffectTarget": "coldimpact3",

@@ -12,7 +12,7 @@ namespace TheRatinFrozenDark
     [BepInProcess("AcrossTheObelisk.exe")]
     public class Plugin : BaseUnityPlugin
     {
-        internal const int ModDate = 20250623;
+        internal const int ModDate = 20250709;
         private readonly Harmony harmony = new(PluginInfo.PLUGIN_GUID);
         internal static ManualLogSource Log;
         private void Awake()

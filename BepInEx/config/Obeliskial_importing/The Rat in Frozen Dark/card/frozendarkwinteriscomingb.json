@@ -65,7 +65,7 @@
     "EffectRepeatModificator": 0,
     "EffectRepeatEnergyBonus": 2,
     "EffectTrailRepeat": false,
-    "EnergyCost": 1,
+    "EnergyCost": 2,
     "EnergyRecharge": 0,
     "Heal": 0,
     "HealAuraCurseName": "",
