@@ -274,12 +274,20 @@ namespace TraitMod
             }
             else if (_acId == "chill")
             {
-                if (_type == "set" && !flag2)
+                if (_type == "set")
                 {
-                    if (__instance.TeamHaveTrait("zekfrozendark"))
+                    if (!flag2)
                     {
-                        __result.MaxCharges = 100;
-                        __result.MaxMadnessCharges = 100;
+                        if (__instance.TeamHaveTrait("zekfrozendark"))
+                        {
+                            __result.MaxCharges = 100;
+                            __result.MaxMadnessCharges = 100;
+                        }
+                    }
+                    // 消除修改寒冷影响
+                    else if (_characterTarget != null && __instance.CharacterHavePerk(_characterTarget.SubclassName, "mainperkChill2d"))
+                    {
+                        __result.CharacterStatChargesMultiplierNeededForOne = 5;
                     }
                 }
             }

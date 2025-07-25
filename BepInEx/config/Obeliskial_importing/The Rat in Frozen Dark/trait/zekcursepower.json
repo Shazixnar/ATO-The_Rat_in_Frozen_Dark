@@ -23,7 +23,7 @@
     "DamageBonusPercentValue": 0.0,
     "DamageBonusPercentValue2": 0.0,
     "DamageBonusPercentValue3": 0.0,
-    "Description": "Heal yourself for 15% of the damage done. Dark on this hero explodes at 44 charges, cannot be dispelled unless specified, don't reduce Shadow resistance and increases All damage done 10% per charge.",
+    "Description": "Heal yourself for 15% of the damage done.<br>Dark on this hero explodes at 44 charges, cannot be dispelled unless specified, don't reduce Shadow resistance and increases All damage done 10% per charge.",
     "HealFlatBonus": 0,
     "HealPercentBonus": 0.0,
     "HealReceivedFlatBonus": 0,

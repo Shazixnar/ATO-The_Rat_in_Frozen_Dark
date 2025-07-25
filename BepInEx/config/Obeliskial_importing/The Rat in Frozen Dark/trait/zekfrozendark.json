@@ -23,7 +23,7 @@
     "DamageBonusPercentValue": 0.0,
     "DamageBonusPercentValue2": 0.0,
     "DamageBonusPercentValue3": 0.0,
-    "Description": "Dark +1. You have corrupted Cold cards (Find them at Magic forge). Chill on enemies max charge is 100. When you play a \"Shadow Spell\" card, apply 1 Scourge and 1 Chill to all monster. When you play a \"Cold Spell\" card, refund 1 Energy and apply 1 Dark to all monster. (4 times/turn)",
+    "Description": "Dark +1. You have corrupted Cold cards (Find them at Magic forge). Chill on enemies max charge is 100.<br>When you play a \"Shadow Spell\" card, apply 1 Scourge and 1 Chill to all monster. When you play a \"Cold Spell\" card, refund 1 Energy and apply 1 Dark to all monster. (4 times/turn)",
     "HealFlatBonus": 0,
     "HealPercentBonus": 0.0,
     "HealReceivedFlatBonus": 0,

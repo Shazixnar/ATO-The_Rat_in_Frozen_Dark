@@ -49,7 +49,7 @@ PS: New cards need the trait of **Frozen Dark** then you can craft them in town.
 
 ### Perks
 
-The fourth Chill perk: Chill on enemies increases Dark explosion 0.1 more damage per 20 charges.
+The fourth Chill perk: Chill on enemies increases Dark explosion 0.1 more damage per 20 charges and this hero grants 1 Reinforce per 14 charges at the end of the turn.
 
 And the third Dark's description.
 </details>

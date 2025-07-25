@@ -12,7 +12,7 @@ namespace TheRatinFrozenDark
     [BepInProcess("AcrossTheObelisk.exe")]
     public class Plugin : BaseUnityPlugin
     {
-        internal const int ModDate = 20250709;
+        internal const int ModDate = 20250725;
         private readonly Harmony harmony = new(PluginInfo.PLUGIN_GUID);
         internal static ManualLogSource Log;
         private void Awake()
@@ -31,7 +31,7 @@ namespace TheRatinFrozenDark
                 _type: new string[5] { "content", "hero", "trait", "card", "perk" }
             );
             medsTexts["custommainperkdark2c"] = "Dark explosion on enemies deals 0.7 more damage per charge.";
-            medsTexts["custommainperkchill2d"] = "Chill on enemies increases Dark explosion 0.1 more damage per 20 charges.";
+            medsTexts["custommainperkchill2d"] = "Chill on enemies increases Dark explosion 0.1 more damage per 20 charges and this hero grants 1 Reinforce per 14 charges at the end of the turn.";
             // apply patches
             harmony.PatchAll();
         }
