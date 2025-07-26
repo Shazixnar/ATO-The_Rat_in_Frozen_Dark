@@ -1,3 +1,7 @@
+# 1.1.7
+
+**Frozen Dark** no need to cast 1 or more energy card (just like the description).
+
 # 1.1.6
 
 The fourth Chill perk: Chill on enemies increases Dark explosion 0.1 more damage per 20 charges and this hero grants 1 Reinforce per 14 charges at the end of the turn.（I try to clear up the vanilla effect, but I just clear up one of them）

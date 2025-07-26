@@ -128,7 +128,7 @@ namespace TraitMod
                     {
                         return;
                     }
-                    if (MatchManager.Instance.energyJustWastedByHero > 0 && (_castedCard.GetCardTypes().Contains(Enums.CardType.Cold_Spell) || _castedCard.GetCardTypes().Contains(Enums.CardType.Shadow_Spell)) && _character.HeroData != null)
+                    if ((_castedCard.GetCardTypes().Contains(Enums.CardType.Cold_Spell) || _castedCard.GetCardTypes().Contains(Enums.CardType.Shadow_Spell)) && _character.HeroData != null)
                     {
                         if (!MatchManager.Instance.activatedTraits.ContainsKey("zekfrozendark"))
                         {
