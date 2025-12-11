@@ -1,3 +1,7 @@
+# 1.1.8
+
+Update for new game version.
+
 # 1.1.7
 
 **Frozen Dark** no need to cast 1 or more energy card (just like the description).

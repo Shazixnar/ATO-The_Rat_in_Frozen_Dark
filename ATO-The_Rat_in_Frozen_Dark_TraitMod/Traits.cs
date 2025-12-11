@@ -30,170 +30,200 @@ namespace TraitMod
         // list of your trait IDs
         public static string[] myTraitList = { "zekdarkfeast", "zekcursepower", "zekfrozendark" };
 
-        public static void myDoTrait(string _trait, ref Trait __instance)
-        {
-            // get info you may need
-            Enums.EventActivation _theEvent = Traverse.Create(__instance).Field("theEvent").GetValue<Enums.EventActivation>();
-            Character _character = Traverse.Create(__instance).Field("character").GetValue<Character>();
-            Character _target = Traverse.Create(__instance).Field("target").GetValue<Character>();
-            int _auxInt = Traverse.Create(__instance).Field("auxInt").GetValue<int>();
-            string _auxString = Traverse.Create(__instance).Field("auxString").GetValue<string>();
-            CardData _castedCard = Traverse.Create(__instance).Field("castedCard").GetValue<CardData>();
-            Traverse.Create(__instance).Field("character").SetValue(_character);
-            Traverse.Create(__instance).Field("target").SetValue(_target);
-            Traverse.Create(__instance).Field("theEvent").SetValue(_theEvent);
-            Traverse.Create(__instance).Field("auxInt").SetValue(_auxInt);
-            Traverse.Create(__instance).Field("auxString").SetValue(_auxString);
-            Traverse.Create(__instance).Field("castedCard").SetValue(_castedCard);
-            TraitData traitData = Globals.Instance.GetTraitData(_trait);
-            List<CardData> cardDataList = new List<CardData>();
-            List<string> heroHand = MatchManager.Instance.GetHeroHand(_character.HeroIndex);
-            Hero[] teamHero = MatchManager.Instance.GetTeamHero();
-            NPC[] teamNpc = MatchManager.Instance.GetTeamNPC();
+        private static readonly Traits _instance = new Traits();
 
-            // activate traits
-            if (_trait == "zekdarkfeast")
+        public static void myDoTrait(
+            string trait,
+            Enums.EventActivation evt,
+            Character character,
+            Character target,
+            int auxInt,
+            string auxString,
+            CardData castedCard)
+        {
+            switch(trait)
             {
-                if (_character.HeroData != null)
+                case "zekdarkfeast":
+                    _instance.zekdarkfeast(evt, character, target, auxInt, auxString, castedCard, trait);
+                    break;
+                    
+                case "zekcursepower":
+                    _instance.zekcursepower(evt, character, target, auxInt, auxString, castedCard, trait);
+                    break;
+
+                case "zekfrozendark":
+                    _instance.zekfrozendark(evt, character, target, auxInt, auxString, castedCard, trait);
+                    break;
+            }
+        }
+
+        // activate traits
+        public void zekdarkfeast(
+            Enums.EventActivation evt,
+            Character character,
+            Character target,
+            int auxInt,
+            string auxString,
+            CardData castedCard,
+            string trait)
+        {
+            if (character == null || character.HeroData == null) return;
+
+            int darkCharges = character.EffectCharges("dark");
+            int energyReduction = 0;
+
+            if (darkCharges >= 5 && darkCharges < 20) energyReduction = 1;
+            else if (darkCharges >= 20) energyReduction = 2;
+
+            if (energyReduction <= 0) return;
+
+            List<string> heroHand = MatchManager.Instance.GetHeroHand(character.HeroIndex);
+            List<CardData> cardsToModify = new List<CardData>();
+
+            foreach (var cardId in heroHand)
+            {
+                CardData card = MatchManager.Instance.GetCardData(cardId);
+                if (card.GetCardFinalCost() > 0)
+                    cardsToModify.Add(card);
+            }
+
+            foreach (var card in cardsToModify)
+            {
+                card.EnergyReductionTemporal += energyReduction;
+                MatchManager.Instance.UpdateHandCards();
+
+                var cardItem = MatchManager.Instance.GetCardFromTableByIndex(card.InternalId);
+                cardItem?.PlayDissolveParticle();
+                cardItem?.ShowEnergyModification(-energyReduction);
+
+                character.HeroItem?.ScrollCombatText(
+                    Texts.Instance.GetText("traits_Dark Feast", ""),
+                    Enums.CombatScrollEffectType.Trait
+                );
+
+                MatchManager.Instance.CreateLogCardModification(card.InternalId, MatchManager.Instance.GetHero(character.HeroIndex));
+            }
+        }
+
+        public void zekcursepower(
+            Enums.EventActivation evt,
+            Character character,
+            Character target,
+            int auxInt,
+            string auxString,
+            CardData castedCard,
+            string trait)
+        {
+            if (character == null || character.GetHp() <= 0) return;
+
+            int healAmount = Functions.FuncRoundToInt(auxInt * 0.15f);
+            Enums.CardClass cc = castedCard != null ? castedCard.CardClass : Enums.CardClass.None;
+
+            healAmount = character.HealWithCharacterBonus(healAmount, cc, 0);
+            healAmount = character.HealReceivedFinal(healAmount, false);
+
+            character.ModifyHp(healAmount, true, true);
+
+            var combatText = new CastResolutionForCombatText { heal = healAmount };
+
+            if (character.HeroItem != null)
+                character.HeroItem.ScrollCombatTextDamageNew(combatText);
+            else if (character.NPCItem != null)
+                character.NPCItem.ScrollCombatTextDamageNew(combatText);
+        }
+
+        public void zekfrozendark(
+            Enums.EventActivation evt,
+            Character character,
+            Character target,
+            int auxInt,
+            string auxString,
+            CardData castedCard,
+            string trait)
+        {
+            if (character == null || castedCard == null) return;
+
+            TraitData traitData = Globals.Instance.GetTraitData(trait);
+            int used = MatchManager.Instance.activatedTraits.ContainsKey(trait) ? MatchManager.Instance.activatedTraits[trait] : 0;
+            if (used >= traitData.TimesPerTurn) return;
+
+            bool isCold = castedCard.HasCardType(Enums.CardType.Cold_Spell);
+            bool isShadow = castedCard.HasCardType(Enums.CardType.Shadow_Spell);
+
+            if (!isCold && !isShadow) return;
+            if (character.HeroData == null) return;
+
+            // 更新次数
+            MatchManager.Instance.activatedTraits[trait] = used + 1;
+            MatchManager.Instance.SetTraitInfoText();
+
+            if (isCold)
+            {
+                character.ModifyEnergy(1, true);
+                character.HeroItem?.ScrollCombatText(
+                    Texts.Instance.GetText("traits_Frozen Dark", "")
+                    + Functions.TextChargesLeft(used + 1, traitData.TimesPerTurn),
+                    Enums.CombatScrollEffectType.Trait
+                );
+                EffectsManager.Instance.PlayEffectAC("energy", true, character.HeroItem?.CharImageT, false, 0f);
+
+                NPC[] teamNPC = MatchManager.Instance.GetTeamNPC();
+                foreach (var npc in teamNPC)
                 {
-                    int num = _character.EffectCharges("dark");
-                    int num2 = 0;
-                    if (num >= 5 && num <20)
-                    {
-                        num2 = 1;
-                    }
-                    else if (num >= 20)
-                    {
-                        num2 = 2;
-                    }
-                    if (num2 > 0)
-                    {
-                        heroHand = MatchManager.Instance.GetHeroHand(_character.HeroIndex);
-                        List<CardData> list = new List<CardData>();
-                        for (int i = 0; i < heroHand.Count; i++)
-                        {
-                            CardData cardData = MatchManager.Instance.GetCardData(heroHand[i]);
-                            if (cardData.GetCardFinalCost() > 0)
-                            {
-                                list.Add(cardData);
-                            }
-                        }
-                        for (int j = 0; j < list.Count; j++)
-                        {
-                            CardData cardData = list[j];
-                            cardData.EnergyReductionTemporal += num2;
-                            MatchManager.Instance.UpdateHandCards();
-                            CardItem cardFromTableByIndex = MatchManager.Instance.GetCardFromTableByIndex(cardData.InternalId);
-                            cardFromTableByIndex.PlayDissolveParticle();
-                            cardFromTableByIndex.ShowEnergyModification(-num2);
-                            _character.HeroItem.ScrollCombatText(Texts.Instance.GetText("traits_Dark Feast", ""), Enums.CombatScrollEffectType.Trait);
-                            MatchManager.Instance.CreateLogCardModification(cardData.InternalId, MatchManager.Instance.GetHero(_character.HeroIndex));
-                        }
-                    }
-                    return;
+                    if (npc != null && npc.Alive)
+                        npc.SetAuraTrait(character, "dark", 1);
                 }
             }
-            else if (_trait == "zekcursepower")
+            else if (isShadow)
             {
-                if (_character != null && _character.GetHp() > 0)
+                NPC[] teamNPC = MatchManager.Instance.GetTeamNPC();
+                foreach (var npc in teamNPC)
                 {
-                    int num = Functions.FuncRoundToInt((float)_auxInt * 0.15f);
-                    Enums.CardClass cc = Enums.CardClass.None;
-                    if (_castedCard != null)
+                    if (npc != null && npc.Alive)
                     {
-                        cc = _castedCard.CardClass;
-                    }
-                    num = _character.HealWithCharacterBonus(num, cc, 0);
-                    num = _character.HealReceivedFinal(num, false);
-                    _character.ModifyHp(num, true, true);
-                    CastResolutionForCombatText castResolutionForCombatText = new CastResolutionForCombatText();
-                    castResolutionForCombatText.heal = num;
-                    if (_character.HeroItem != null)
-                    {
-                        _character.HeroItem.ScrollCombatTextDamageNew(castResolutionForCombatText);
-                        return;
-                    }
-                    if (_character.NPCItem != null)
-                    {
-                        _character.NPCItem.ScrollCombatTextDamageNew(castResolutionForCombatText);
-                    }
-                }
-            }
-            else if (_trait == "zekfrozendark")
-            {
-                if (MatchManager.Instance != null && _castedCard != null)
-                {
-                    traitData = Globals.Instance.GetTraitData("zekfrozendark");
-                    if (MatchManager.Instance.activatedTraits != null && MatchManager.Instance.activatedTraits.ContainsKey("zekfrozendark") && MatchManager.Instance.activatedTraits["zekfrozendark"] > traitData.TimesPerTurn - 1)
-                    {
-                        return;
-                    }
-                    if ((_castedCard.GetCardTypes().Contains(Enums.CardType.Cold_Spell) || _castedCard.GetCardTypes().Contains(Enums.CardType.Shadow_Spell)) && _character.HeroData != null)
-                    {
-                        if (!MatchManager.Instance.activatedTraits.ContainsKey("zekfrozendark"))
-                        {
-                            MatchManager.Instance.activatedTraits.Add("zekfrozendark", 1);
-                        }
-                        else
-                        {
-                            Dictionary<string, int> activatedTraits = MatchManager.Instance.activatedTraits;
-                            activatedTraits["zekfrozendark"] = activatedTraits["zekfrozendark"] + 1;
-                        }
-                        MatchManager.Instance.SetTraitInfoText();
-                        if (_castedCard.GetCardTypes().Contains(Enums.CardType.Cold_Spell))
-                        {
-                            _character.ModifyEnergy(1, true);
-                            if (_character.HeroItem != null)
-                            {
-                                _character.HeroItem.ScrollCombatText(Texts.Instance.GetText("traits_Frozen Dark", "") + TextChargesLeft(MatchManager.Instance.activatedTraits["zekfrozendark"], traitData.TimesPerTurn), Enums.CombatScrollEffectType.Trait);
-                                EffectsManager.Instance.PlayEffectAC("energy", true, _character.HeroItem.CharImageT, false, 0f);
-                            }
-                            NPC[] teamNPC = MatchManager.Instance.GetTeamNPC();
-                            for (int i = 0; i < teamNPC.Length; i++)
-                            {
-                                if (teamNPC[i] != null && teamNPC[i].Alive)
-                                {
-                                    teamNPC[i].SetAuraTrait(_character, "dark", 1);
-                                }
-                            }
-                            return;
-                        }
-                        else if (_castedCard.GetCardTypes().Contains(Enums.CardType.Shadow_Spell))
-                        {
-                            NPC[] teamNPC = MatchManager.Instance.GetTeamNPC();
-                            for (int i = 0; i < teamNPC.Length; i++)
-                            {
-                                if (teamNPC[i] != null && teamNPC[i].Alive)
-                                {
-                                    teamNPC[i].SetAuraTrait(_character, "scourge", 1);
-                                    teamNPC[i].SetAuraTrait(_character, "chill", 1);
-                                }
-                            }
-                            return;
-                        }
+                        npc.SetAuraTrait(character, "scourge", 1);
+                        npc.SetAuraTrait(character, "chill", 1);
                     }
                 }
             }
         }
 
-        [HarmonyPrefix]
         [HarmonyPatch(typeof(Trait), "DoTrait")]
-        public static bool DoTrait(Enums.EventActivation _theEvent, string _trait, Character _character, Character _target, int _auxInt, string _auxString, CardData _castedCard, ref Trait __instance)
+        public static class Trait_DoTrait_Patch
         {
-            if ((UnityEngine.Object)MatchManager.Instance == (UnityEngine.Object)null)
-                return false;
-            Traverse.Create(__instance).Field("character").SetValue(_character);
-            Traverse.Create(__instance).Field("target").SetValue(_target);
-            Traverse.Create(__instance).Field("theEvent").SetValue(_theEvent);
-            Traverse.Create(__instance).Field("auxInt").SetValue(_auxInt);
-            Traverse.Create(__instance).Field("auxString").SetValue(_auxString);
-            Traverse.Create(__instance).Field("castedCard").SetValue(_castedCard);
-            if (Content.medsCustomTraitsSource.Contains(_trait) && myTraitList.Contains(_trait))
+            [HarmonyPrefix]
+            public static bool Prefix(
+                Enums.EventActivation __0,   // theEvent
+                string __1,                  // trait id
+                Character __2,               // character
+                Character __3,               // target
+                int __4,                     // auxInt
+                string __5,                  // auxString
+                CardData __6,                // castedCard
+                Trait __instance)
             {
-                myDoTrait(_trait, ref __instance);
-                return false;
+                string trait = __1;
+
+                // 如果是自定义 trait，就直接调用我们的逻辑
+                if (myTraitList.Contains(trait))
+                {
+                    myDoTrait(
+                        trait,
+                        __0,        // event
+                        __2,        // character
+                        __3,        // target
+                        __4,        // auxInt
+                        __5,        // auxString
+                        __6         // castedCard
+                    );
+
+                    // 返回 false = 阻止原版 DoTrait 执行
+                    return false;
+                }
+
+                // 否则走原版逻辑
+                return true;
             }
-            return true;
         }
 
         public static string TextChargesLeft(int currentCharges, int chargesTotal)
