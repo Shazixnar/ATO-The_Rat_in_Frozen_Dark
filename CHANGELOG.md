@@ -1,3 +1,7 @@
+# 1.1.9
+
+Update for the current game version (2026.11.26).
+
 # 1.1.8
 
 Update for new game version.

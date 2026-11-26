@@ -19,7 +19,7 @@ namespace TraitMod
         [HarmonyPatch(typeof(Character), "IndirectDamage")]
         public static void IndirectDamagePrefix(ref Character __instance, ref int damage, ref Enums.DamageType damageType, ref String effect)
         {
-            if (damageType == Enums.DamageType.Shadow && AtOManager.Instance.TeamHaveTrait("zekdarkestabyss") && !__instance.IsHero && effect == "dark")
+            if (damageType == Enums.DamageType.Shadow && AtOManager.Instance.team.TeamHaveTrait("zekdarkestabyss") && !__instance.IsHero && effect == "dark")
             {
                 int darkCharge = __instance.GetAuraCharges("dark");
                 damage += Functions.FuncRoundToInt((float)damage * 0.05f * (float)darkCharge);
@@ -39,7 +39,7 @@ namespace TraitMod
             Character target,
             int auxInt,
             string auxString,
-            CardData castedCard)
+            Cards.CardRealtimeData castedCard)
         {
             switch(trait)
             {
@@ -64,7 +64,7 @@ namespace TraitMod
             Character target,
             int auxInt,
             string auxString,
-            CardData castedCard,
+            Cards.CardRealtimeData castedCard,
             string trait)
         {
             if (character == null || character.HeroData == null) return;
@@ -77,12 +77,12 @@ namespace TraitMod
 
             if (energyReduction <= 0) return;
 
-            List<string> heroHand = MatchManager.Instance.GetHeroHand(character.HeroIndex);
-            List<CardData> cardsToModify = new List<CardData>();
+            List<string> heroHand = character.BattleCards.GetPile(BattleMatch.DeckType.Hand).ToList();
+            List<Cards.CardRealtimeData> cardsToModify = new List<Cards.CardRealtimeData>();
 
             foreach (var cardId in heroHand)
             {
-                CardData card = MatchManager.Instance.GetCardData(cardId);
+                Cards.CardRealtimeData card = MatchManager.Instance.GetCardData(cardId);
                 if (card.GetCardFinalCost() > 0)
                     cardsToModify.Add(card);
             }
@@ -111,7 +111,7 @@ namespace TraitMod
             Character target,
             int auxInt,
             string auxString,
-            CardData castedCard,
+            Cards.CardRealtimeData castedCard,
             string trait)
         {
             if (character == null || character.GetHp() <= 0) return;
@@ -138,7 +138,7 @@ namespace TraitMod
             Character target,
             int auxInt,
             string auxString,
-            CardData castedCard,
+            Cards.CardRealtimeData castedCard,
             string trait)
         {
             if (character == null || castedCard == null) return;
@@ -167,7 +167,7 @@ namespace TraitMod
                 );
                 EffectsManager.Instance.PlayEffectAC("energy", true, character.HeroItem?.CharImageT, false, 0f);
 
-                NPC[] teamNPC = MatchManager.Instance.GetTeamNPC();
+                var teamNPC = MatchManager.Instance.GetTeamNPC();
                 foreach (var npc in teamNPC)
                 {
                     if (npc != null && npc.Alive)
@@ -176,7 +176,7 @@ namespace TraitMod
             }
             else if (isShadow)
             {
-                NPC[] teamNPC = MatchManager.Instance.GetTeamNPC();
+                var teamNPC = MatchManager.Instance.GetTeamNPC();
                 foreach (var npc in teamNPC)
                 {
                     if (npc != null && npc.Alive)
@@ -199,7 +199,7 @@ namespace TraitMod
                 Character __3,               // target
                 int __4,                     // auxInt
                 string __5,                  // auxString
-                CardData __6,                // castedCard
+                Cards.CardRealtimeData __6,                // castedCard
                 Trait __instance)
             {
                 string trait = __1;
@@ -254,19 +254,19 @@ namespace TraitMod
                 {
                     if (!flag2)
                     {
-                        if (__instance.TeamHaveTrait("zekdarkfeast"))
+                        if (__instance.team.TeamHaveTrait("zekdarkfeast"))
                         {
                             __result.ResistModifiedPercentagePerStack = -1.5f;
                         }
-                        if (__instance.TeamHaveTrait("malukahshadowform"))
+                        if (__instance.team.TeamHaveTrait("malukahshadowform"))
                         {
                             DamageWhenConsumedPerChargeModify += 0.5f;
                         }
-                        if (__instance.TeamHavePerk("mainperkdark2c"))
+                        if (__instance.team.TeamHavePerk("mainperkdark2c"))
                         {
                             DamageWhenConsumedPerChargeModify += 0.7f;
                         }
-                        if (__instance.TeamHavePerk("mainperkChill2d"))
+                        if (__instance.team.TeamHavePerk("mainperkChill2d"))
                         {
                             int chillCharge = _characterTarget.GetAuraCharges("chill");
                             DamageWhenConsumedPerChargeModify += (float)(chillCharge / 20 * 0.1f);
@@ -274,7 +274,7 @@ namespace TraitMod
                     }
                     else if (flag2)
                     {
-                        if (_characterTarget != null && __instance.CharacterHaveTrait(_characterTarget.SubclassName, "zekcursepower"))
+                        if (_characterTarget != null && __instance.team.CharacterHaveTrait(_characterTarget.SubclassName, "zekcursepower"))
                         {
                             __result.AuraDamageType = Enums.DamageType.All;
                             __result.ExplodeAtStacks = 44;
@@ -286,15 +286,15 @@ namespace TraitMod
                 }
                 else if (_type == "consume" && !flag)
                 {
-                    if (__instance.TeamHaveTrait("malukahshadowform"))
+                    if (__instance.team.TeamHaveTrait("malukahshadowform"))
                     {
                         DamageWhenConsumedPerChargeModify += 0.5f;
                     }
-                    if (__instance.TeamHavePerk("mainperkdark2c"))
+                    if (__instance.team.TeamHavePerk("mainperkdark2c"))
                     {
                         DamageWhenConsumedPerChargeModify += 0.7f;
                     }
-                    if (__instance.TeamHavePerk("mainperkChill2d"))
+                    if (__instance.team.TeamHavePerk("mainperkChill2d"))
                     {
                         int chillCharge = _characterCaster.GetAuraCharges("chill");
                         DamageWhenConsumedPerChargeModify += (float)(chillCharge / 20 * 0.1f);
@@ -308,14 +308,14 @@ namespace TraitMod
                 {
                     if (!flag2)
                     {
-                        if (__instance.TeamHaveTrait("zekfrozendark"))
+                        if (__instance.team.TeamHaveTrait("zekfrozendark"))
                         {
                             __result.MaxCharges = 100;
                             __result.MaxMadnessCharges = 100;
                         }
                     }
                     // 消除修改寒冷影响
-                    else if (_characterTarget != null && __instance.CharacterHavePerk(_characterTarget.SubclassName, "mainperkChill2d"))
+                    else if (_characterTarget != null && __instance.team.CharacterHavePerk(_characterTarget.SubclassName, "mainperkChill2d"))
                     {
                         __result.CharacterStatChargesMultiplierNeededForOne = 5;
                     }
